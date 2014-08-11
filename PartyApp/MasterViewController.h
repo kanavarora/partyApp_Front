@@ -15,5 +15,7 @@
 - (IBAction)setSoundVolume:(NSSlider *)sender;
 - (IBAction)playPauseMusic:(NSButton *)sender;
 - (void)redraw;
+- (void)redrawSearch:(NSArray *)songsList;
+- (void)enableSearchSongButton;
 
 @end

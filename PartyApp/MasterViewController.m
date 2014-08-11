@@ -15,8 +15,15 @@
 
 @interface MasterViewController ()
 @property (weak) IBOutlet NSTableView *songsTable;
+@property (weak) IBOutlet NSTableView *searchTable;
+@property (weak) IBOutlet NSTextField *searchText;
+@property (weak) IBOutlet NSButton *addSearchSongButton;
+
+
 
 @property (nonatomic, readwrite, assign) BOOL isPaused;
+
+@property (nonatomic, readwrite, strong) NSArray *searchSongs;
 
 @end
 
@@ -50,6 +57,11 @@
     [self.songsTable reloadData];
 }
 
+- (void)redrawSearch:(NSArray *)songsList {
+    self.searchSongs = songsList;
+    [self.searchTable reloadData];
+}
+
 - (void)playMusicFromUrl:(NSString *)urlString {
     
     NSURL *url = [NSURL URLWithString:@"http://www.mbr-pwrc.usgs.gov/id/htmwav/h5810so.mp3"];
@@ -67,6 +79,17 @@
 {
     NSInteger selectedRow = [self.songsTable selectedRow];
     NSArray *songs = [PlayListManager sharedManager].songs;
+    if( selectedRow >=0 && songs.count > selectedRow )
+    {
+        return selectedRow;
+    }
+    return -1;
+}
+
+-(int)selectedSearchSong
+{
+    NSInteger selectedRow = [self.searchTable selectedRow];
+    NSArray *songs = self.searchSongs;
     if( selectedRow >=0 && songs.count > selectedRow )
     {
         return selectedRow;
@@ -106,15 +129,36 @@
     [[PlayListManager sharedManager] jumpToNextSong];
 }
 
+- (IBAction)searchForSong:(id)sender
+{
+    NSString *query = self.searchText.stringValue;
+    if (query.length) {
+        [[ServerManager sharedManager] searchForSong:query withVC:self];
+    }
+}
+
+- (IBAction)addSearchSong:(id)sender {
+    int i = [self selectedSearchSong];
+    if (i > -1) {
+        [[ServerManager sharedManager] addSearchSongToPlayList:self.searchSongs[i] withVc:self];
+        // disable add button for some seconds until we get response
+        [self.addSearchSongButton setEnabled:NO];
+    }
+}
+
+- (void)enableSearchSongButton {
+    [self.addSearchSongButton setEnabled:YES];
+}
+
 - (void)setupCellView:(NSTableCellView *)cellView isCurrent:(BOOL)isCurrent {
     cellView.textField.textColor = [NSColor whiteColor];
-    //cellView.textField.backgroundColor = [NSColor yellowColor];
     if (isCurrent) {
         cellView.textField.backgroundColor = [NSColor yellowColor];
     }
 }
 
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+// song table View
+- (NSView *)tableViewForSongsTable:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     BOOL isCurrent = NO;
     SongMetadata *songMetadata = [PlayListManager sharedManager].songs[row];
     if (row == [PlayListManager sharedManager].currentTrackNumber) {
@@ -149,9 +193,42 @@
     return nil;
 }
 
+// search table view
+- (NSView *)tableViewForSearchTable:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    NSMutableDictionary *searchSong = self.searchSongs[row];
+    if ([tableColumn.identifier isEqualTo:@"searchNameColumn"]) {
+        NSTableCellView *cellView = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
+        cellView.textField.stringValue = searchSong[@"name"];
+        return cellView;
+    } else if ([tableColumn.identifier isEqualTo:@"searchArtistNameColumn"]) {
+        NSTableCellView *cellView = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
+        cellView.textField.stringValue = searchSong[@"artist"];
+        return cellView;
+    } else if ([tableColumn.identifier isEqualTo:@"searchDurationColumn"]) {
+        NSTableCellView *cellView = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
+        cellView.textField.stringValue = [@((int)[searchSong[@"duration"] floatValue]) stringValue];
+        return cellView;
+    }
+    return nil;
+}
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    if (tableView == self.songsTable) {
+        return [self tableViewForSongsTable:tableView viewForTableColumn:tableColumn row:row];
+    } else if (tableView == self.searchTable) {
+        return [self tableViewForSearchTable:tableView viewForTableColumn:tableColumn row:row];
+    }
+    return nil;
+}
+
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [PlayListManager sharedManager].songs.count;
+    if (tableView == self.songsTable) {
+        return [PlayListManager sharedManager].songs.count;
+    } else if (tableView == self.searchTable) {
+        return self.searchSongs.count;
+    }
+    return 0;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
