@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class MasterViewController;
+@class SongMetadata;
 @interface ServerManager : NSObject
 
 + (ServerManager *)sharedManager;
@@ -17,5 +18,6 @@
 // TODO: dont take vc as arguments
 - (void)searchForSong:(NSString *)query withVC:(MasterViewController *)vc;
 - (void)addSearchSongToPlayList:(NSMutableDictionary *)song withVc:(MasterViewController *)vc;
+- (void)downloadSongFromLocalhost:(SongMetadata *)songMetada;
 
 @end

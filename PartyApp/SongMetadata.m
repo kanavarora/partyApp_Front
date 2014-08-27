@@ -17,7 +17,8 @@
                url:(NSString *)url
           duration:(float)duration
           songName:(NSString *)songName
-        artistName:(NSString *)artistName {
+        artistName:(NSString *)artistName
+        serialized:(id)serialized {
     if (self  = [super init]) {
         _uid = uid;
         _phoneNumber= phoneNumber;
@@ -26,6 +27,7 @@
         _duration = duration;
         _songName = songName;
         _artistName = artistName;
+        _serialized = serialized;
     }
     return self;
 }

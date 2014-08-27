@@ -30,6 +30,8 @@
 		4A7057FD19920C1500D40AB1 /* ServerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A7057FC19920C1500D40AB1 /* ServerManager.m */; };
 		4A70580019920F4F00D40AB1 /* PlayListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A7057FF19920F4F00D40AB1 /* PlayListManager.m */; };
 		4A70580319976D9400D40AB1 /* SongMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A70580219976D9400D40AB1 /* SongMetadata.m */; };
+		4A705806199B571300D40AB1 /* FullScreenView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A705805199B571300D40AB1 /* FullScreenView.xib */; };
+		4A705809199B574900D40AB1 /* FullsScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A705808199B574900D40AB1 /* FullsScreenViewController.m */; };
 		4AE0F6121990BDFD003E2BD3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE0F6111990BDFD003E2BD3 /* Cocoa.framework */; };
 		4AE0F61C1990BDFD003E2BD3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4AE0F61A1990BDFD003E2BD3 /* InfoPlist.strings */; };
 		4AE0F61E1990BDFD003E2BD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AE0F61D1990BDFD003E2BD3 /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -52,6 +54,8 @@
 		4AE0F6C11990E175003E2BD3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE0F6C01990E175003E2BD3 /* SystemConfiguration.framework */; };
 		4AE0F6C31990E18D003E2BD3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE0F6C21990E18D003E2BD3 /* CoreGraphics.framework */; };
 		4AE0F6C51990E198003E2BD3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE0F6C41990E198003E2BD3 /* libz.dylib */; };
+		4AF45E0519AC7963009EC8D3 /* SongBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AF45E0319AC7963009EC8D3 /* SongBrowserViewController.m */; };
+		4AF45E0619AC7963009EC8D3 /* SongBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AF45E0419AC7963009EC8D3 /* SongBrowserViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +100,9 @@
 		4A70580119976D9400D40AB1 /* SongMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongMetadata.h; sourceTree = "<group>"; };
 		4A70580219976D9400D40AB1 /* SongMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongMetadata.m; sourceTree = "<group>"; };
 		4A7058041997819300D40AB1 /* EXTKeyPathCoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXTKeyPathCoding.h; sourceTree = "<group>"; };
+		4A705805199B571300D40AB1 /* FullScreenView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FullScreenView.xib; sourceTree = "<group>"; };
+		4A705807199B574900D40AB1 /* FullsScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullsScreenViewController.h; sourceTree = "<group>"; };
+		4A705808199B574900D40AB1 /* FullsScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullsScreenViewController.m; sourceTree = "<group>"; };
 		4AE0F60E1990BDFD003E2BD3 /* PartyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PartyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AE0F6111990BDFD003E2BD3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		4AE0F6141990BDFD003E2BD3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -137,6 +144,9 @@
 		4AE0F6C01990E175003E2BD3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4AE0F6C21990E18D003E2BD3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		4AE0F6C41990E198003E2BD3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		4AF45E0219AC7963009EC8D3 /* SongBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongBrowserViewController.h; sourceTree = "<group>"; };
+		4AF45E0319AC7963009EC8D3 /* SongBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongBrowserViewController.m; sourceTree = "<group>"; };
+		4AF45E0419AC7963009EC8D3 /* SongBrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SongBrowserViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +278,12 @@
 				4A70580119976D9400D40AB1 /* SongMetadata.h */,
 				4A70580219976D9400D40AB1 /* SongMetadata.m */,
 				4AE0F6261990BDFD003E2BD3 /* MainMenu.xib */,
+				4A705805199B571300D40AB1 /* FullScreenView.xib */,
+				4AF45E0219AC7963009EC8D3 /* SongBrowserViewController.h */,
+				4AF45E0319AC7963009EC8D3 /* SongBrowserViewController.m */,
+				4AF45E0419AC7963009EC8D3 /* SongBrowserViewController.xib */,
+				4A705807199B574900D40AB1 /* FullsScreenViewController.h */,
+				4A705808199B574900D40AB1 /* FullsScreenViewController.m */,
 				4AE0F6291990BDFD003E2BD3 /* Images.xcassets */,
 				4AE0F6181990BDFD003E2BD3 /* Supporting Files */,
 			);
@@ -414,11 +430,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AF45E0619AC7963009EC8D3 /* SongBrowserViewController.xib in Resources */,
 				4A7057FA199204B600D40AB1 /* MasterViewController.xib in Resources */,
 				4AE0F61C1990BDFD003E2BD3 /* InfoPlist.strings in Resources */,
 				4A7057E21991E96700D40AB1 /* player_play@2x.png in Resources */,
 				4A7057DC1991E96700D40AB1 /* player_bubble@2x.png in Resources */,
 				4AE0F62A1990BDFD003E2BD3 /* Images.xcassets in Resources */,
+				4A705806199B571300D40AB1 /* FullScreenView.xib in Resources */,
 				4A7057D91991E96700D40AB1 /* player_bg.png in Resources */,
 				4A7057E71991E96700D40AB1 /* player_progress_blue.png in Resources */,
 				4A7057E41991E96700D40AB1 /* player_player_bg@2x.png in Resources */,
@@ -454,11 +472,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AF45E0519AC7963009EC8D3 /* SongBrowserViewController.m in Sources */,
 				4A7057FD19920C1500D40AB1 /* ServerManager.m in Sources */,
 				4AE0F69D1990BEE6003E2BD3 /* ASIFormDataRequest.m in Sources */,
 				4AE0F69E1990BEE6003E2BD3 /* ASIHTTPRequest.m in Sources */,
 				4AE0F6251990BDFD003E2BD3 /* AppDelegate.m in Sources */,
 				4AE0F6A01990BEE6003E2BD3 /* ASINetworkQueue.m in Sources */,
+				4A705809199B574900D40AB1 /* FullsScreenViewController.m in Sources */,
 				4A70580319976D9400D40AB1 /* SongMetadata.m in Sources */,
 				4A70580019920F4F00D40AB1 /* PlayListManager.m in Sources */,
 				4AE0F69C1990BEE6003E2BD3 /* ASIDownloadCache.m in Sources */,

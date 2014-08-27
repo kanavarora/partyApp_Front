@@ -10,6 +10,7 @@
 
 #import "SongMetadata.h"
 #import "MasterViewController.h"
+#import "ServerManager.h"
 
 #define kSongDidFinishNotification @"SoundDidFinishPlayingNotification"
 
@@ -41,6 +42,24 @@
     return NO;
 }
 
+- (void)triggerPendingDownloads {
+    // check in file path TODO:
+    for (SongMetadata *song in self.songs) {
+        if (song.downloadStatus == notDownloaded) {
+            // check if file already exisits, if not then download it
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory, NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            NSString *filePath = [documentsDirectory stringByAppendingPathComponent:song.nameOfSong];
+            BOOL fileExits = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+            if (fileExits) {
+                song.downloadStatus = downloaded;
+            } else {
+                [[ServerManager sharedManager] downloadSongFromLocalhost:song];
+            }
+        }
+    }
+}
+
 - (void)addSongResponse:(NSMutableDictionary *)d {
     SongMetadata *songMetadata = [[SongMetadata alloc]
                                   initWithUid:d[@"_id"][@"$oid"]
@@ -49,9 +68,11 @@
                                   url:d[@"link"]
                                   duration:[d[@"duration"] floatValue]
                                   songName:d[@"songName"]
-                                  artistName:d[@"artistName"]];
+                                  artistName:d[@"artistName"]
+                                  serialized:d[@"serialized"]];
     if (![self doesContainSong:songMetadata]) {
         [self.songs addObject:songMetadata];
+        [self triggerPendingDownloads];
         [self.vc redraw];
         if (self.currentTrackNumber == self.songs.count - 1) {
             // play the new song
@@ -98,6 +119,11 @@
 
 // Music Player
 -(void)playSongWithMetadata:(SongMetadata *)songMetadata {
+    if (songMetadata.downloadStatus == isDownloading) {
+        [self performSelector:@selector(playSongWithMetadata:) withObject:songMetadata afterDelay:0.5f];
+        return;
+        // TODO: check for failed download
+    }
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSMusicDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *filePath = [documentsDirectory stringByAppendingPathComponent:songMetadata.nameOfSong];

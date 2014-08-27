@@ -12,6 +12,7 @@
 #import "SoundManager.h"
 #import "PlayListManager.h"
 #import "SongMetadata.h"
+#import "AppDelegate.h"
 
 @interface MasterViewController ()
 @property (weak) IBOutlet NSTableView *songsTable;
@@ -33,22 +34,26 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [PlayListManager sharedManager];
         // Initialization code here.
         [[PlayListManager sharedManager] addObserver:self
                   forKeyPath:@"currentTrackNumber"
                      options:(NSKeyValueObservingOptionNew |
                               NSKeyValueObservingOptionOld)
                      context:NULL];
-        [[ServerManager sharedManager] keepTryingToDownloadPlaylist];
-        [self setupTableView];
         [PlayListManager sharedManager].vc = self;
-        [[PlayListManager sharedManager] playFromStart];
         
     }
     return self;
 }
 
+- (void)dealloc {
+    [[PlayListManager sharedManager] removeObserver:self forKeyPath:@"currentTrackNumber"];
+}
+
+- (void)loadView {
+    [super loadView];
+    [self setupTableView];
+}
 - (void)setupTableView {
     self.songsTable.backgroundColor = [NSColor blackColor];
 }
@@ -144,6 +149,11 @@
         // disable add button for some seconds until we get response
         [self.addSearchSongButton setEnabled:NO];
     }
+}
+
+- (IBAction)switchToFullScreen:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+    [appDelegate switchToFullScreenView];
 }
 
 - (void)enableSearchSongButton {

@@ -12,6 +12,8 @@
 #import "PlayListManager.h"
 #import "MasterViewController.h"
 #import "ASIFormDataRequest.h"
+#import "SongMetadata.h"
+#import "AppDelegate.h"
 
 @implementation ServerManager
 
@@ -25,7 +27,8 @@
     return sharedManager;
 }
 
-#define kMainUrl @"http://localhost:5000/"
+//#define kMainUrl @"http://localhost:5000/"
+#define kMainUrl @"http://jukeboxbackend.herokuapp.com/"
 
 +(NSString *)constructUrl:(NSString *)relativeUrl {
     return [NSString stringWithFormat:@"%@%@", kMainUrl, relativeUrl];
@@ -52,6 +55,8 @@
             for (NSMutableDictionary *song in songsList) {
                 [[PlayListManager sharedManager] addSongResponse:song];
             }
+            AppDelegate *appDelegate = (AppDelegate *)[[NSApplication sharedApplication] delegate];
+            [appDelegate downloadedPlaylist];
         }
     }];
     
@@ -116,4 +121,32 @@
     [request startAsynchronous];
 }
 
+- (void)downloadSongFromLocalhost:(SongMetadata *)songMetada {
+    NSURL *url = [NSURL URLWithString:@"http://localhost:5000/downloadSong"];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:songMetada.serialized
+                                                       options:kNilOptions
+                                                         error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request setPostValue:jsonString forKey:@"song"];
+    [request setPostValue:songMetada.phoneNumber forKey:@"phoneNumber"];
+    [request setCompletionBlock:^{
+        NSError *error = [request error];
+        if (!error) {
+            NSString *response = [request responseString];
+            NSLog(@"%@", response);
+            songMetada.downloadStatus = downloaded;
+        } else {
+            songMetada.downloadStatus = failedDownload;
+        }
+    }];
+    [request setFailedBlock:^{
+        NSError *error = [request error];
+        songMetada.downloadStatus = failedDownload;
+        NSLog(@"%@", error);
+    }];
+    songMetada.downloadStatus = isDownloading;
+    [request startAsynchronous];
+}
 @end
